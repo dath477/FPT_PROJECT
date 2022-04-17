@@ -1,0 +1,59 @@
+<!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change password</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form id="formchangepass" action="{% url 'change-pass' %}" class="" method="POST">
+                {% csrf_token %}
+                <label><b>Old password</b></label>
+                <br>
+                <input type="password" placeholder="Enter old password" name="old_password" required>
+                <br>
+                <label><b>New password</b></label>
+                <br>
+                <input type="password" placeholder="Enter new password" name="new_password" required>
+                <br>
+                <label><b>New password confirmation:</b></label>
+                <br>
+                <input type="password" placeholder="New password confirmation:" name="re_new_password" required>
+                <input type="submit" class="d-none">
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button id="close_form" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button form="formchangepass" type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script>
+    $(document).ready(function(){
+        var frmPW = $('#formchangepass');
+        frmPW.submit(function() {
+            $.ajax({
+                type: frmPW.attr('method'),
+                url: frmPW.attr('action'),
+                data: frmPW.serialize(),
+                success: function(resp) {
+                    alert(resp);
+                    $('#close_form').click();                    
+                },
+                error: function() {
+                    alert("Error!");
+                    $('#close_form').click();
+                }
+            });
+            return false;
+        });
+    });
+    
+</script>

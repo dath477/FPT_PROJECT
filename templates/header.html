@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-xl navbar-light bg-light">
+	<div id="navbarCollapse" class="container collapse navbar-collapse justify-content-start">
+		<div class="navbar-nav">
+			<a href="{% url 'home' %}" class="nav-item nav-link {% if url_name == 'home' %}active{% endif %}">Home</a>
+			<a href="{% url 'about' %}" class="nav-item nav-link {% if url_name == 'about' %}active{% endif %}">About</a>
+			{% if user.is_staff %}
+				<a href="{% url 'admin' %}" class="nav-item nav-link">Admin</a>
+       		{% endif %}
+		</div>
+		<div class="navbar-nav ml-auto">
+			<div class="nav-item dropdown">
+				<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/users.png" class="avatar" alt="Avatar" width="40" height="40"> {{username}} <b class="caret"></b></a>
+				<div class="dropdown-menu">
+					<a href="{% url 'profile' %}" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a></a>
+					<a data-toggle="modal" data-target="#exampleModal" class="dropdown-item"><i class="fa fa-key"></i> Change Password</a></a>
+					<div class="dropdown-divider"></div>
+					<a href="{% url 'logout' %}" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>
+{% include 'change_pass.html' %}

@@ -1,0 +1,35 @@
+{% extends  'base.html' %} 
+{% block title%}Login - FPT PROJECT{% endblock%}
+{% block linkcss %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block content %}
+<div class="login-form">
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <h1>Login</h1>
+    <div class="form-group">
+      <input type="user" name="username" placeholder="User name">
+      <span class="input-icon"><i class="fa fa-user"></i></span>
+    </div>
+    <div class="form-group">
+      <input type="password" name="password" placeholder="Password">
+      <span class="input-icon"><i class="fa fa-lock"></i></span>
+    </div>    
+    <p class="text-danger" style="color: red;">{{message}}</p>
+    <!-- <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember me</label> -->
+    <button class="login-btn" type="submit">Login</button>   
+    <!-- <a class="reset-psw" href="/forget">Forgot your password?</a> -->
+    <!-- <a class="reset-psw" href="/signup">Sign Up</a> -->
+  </form>
+</div>
+{% block scripts %}
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}
+{% endblock %}
+
+
+
+

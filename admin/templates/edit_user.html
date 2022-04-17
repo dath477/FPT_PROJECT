@@ -1,0 +1,100 @@
+{% extends  'base_admin.html' %} 
+{% block title%}Users - FPT PROJECT{% endblock%}
+{% load static %}
+{% block linkcss %}
+{% endblock %}
+{% block content %}
+<!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Users - FPT PROJECT</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">        
+        {% include  'header_admin.html' with username=username %} 
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h3 class="text-themecolor">USERS</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">USERS</li>
+                        </ol>
+                    </div>
+                </div>
+                <form id="edit_user" action="{% url 'edit_user' %}" class="" method="POST">
+                    {% csrf_token %}
+                    <h1>Info</h1>
+                    <label><b>Username</b></label>
+                    <br>
+                    <input type="username" placeholder="Enter username" name="username" required autocomplete="off">
+                    <br>
+                    <label><b>Email</b></label>
+                    <br>
+                    <input type="email" placeholder="Enter email" name="email" required autocomplete="off">
+                    <br>
+                    <label><b>Password</b></label>
+                    <br>
+                    <input type="password" placeholder="Enter password" name="password" required autocomplete="off">
+                    <br>
+                    <label><b>Password confirmation:</b></label>
+                    <br>
+                    <input type="password" placeholder="Password confirmation:" name="re_password" required autocomplete="off">
+                    <h1>Permission</h1>
+                    <label><b>Username</b></label>
+                    <br>
+                    <input type="username" placeholder="Enter username" name="username" required autocomplete="off">
+                    <br>
+                    <label><b>Email</b></label>
+                    <br>
+                    <input type="email" placeholder="Enter email" name="email" required autocomplete="off">
+                    <br>
+                    <label><b>Password</b></label>
+                    <br>
+                    <input type="password" placeholder="Enter password" name="password" required autocomplete="off">
+                    <br>
+                    <label><b>Password confirmation:</b></label>
+                    <br>
+                    <input type="password" placeholder="Password confirmation:" name="re_password" required autocomplete="off">
+                    <input type="submit">Delete</input>
+                    <input type="submit">Save</input>
+                </form>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->            
+            {% include  'footer_admin.html' %} 
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+{% endblock %}
+{% block scripts %}
+{% endblock %}
+

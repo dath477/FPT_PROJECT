@@ -1,0 +1,124 @@
+{% extends  'base_admin.html' %} 
+{% block title%}Admin - FPT PROJECT{% endblock%}
+{% load static %}
+{% block linkcss %}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}
+{% block content %}
+<!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Admin - FPT PROJECT</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">        
+        {% include  'header_admin.html' with username=username %} 
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h3 class="text-themecolor">Dashboard</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card card-body mailbox">
+                            <h5 class="card-title">GROUPS AND USERS</h5>                            
+                            <ul>
+                                <!--
+                                <li>
+                                    <div>GROUPS
+                                        <div style="float:right" class="d-inline">
+                                            <a href="{% url 'create_group' %}" class="text-success add-edit-admin"><i class="fa fa-plus"></i>Add</a>                                     
+                                            <a href="{% url 'edit_group' %}" class="text-danger add-edit-admin"><i class="fa fa-pencil"></i>Edit</a>
+                                        </div>
+                                    </div>                                    
+                                </li>
+                                -->
+                                <li>
+                                    <div>USERS
+                                        <div style="float:right" class="d-inline">
+                                            <a href="{% url 'create_user' %}" class="text-success add-edit-admin"><i class="fa fa-plus"></i>Add</a>                                     
+                                            <a href="{% url 'edit_user' %}" class="text-danger add-edit-admin"><i class="fa fa-pencil"></i>Edit</a>
+                                        </div>
+                                    </div>   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card card-body mailbox">
+                            <h5 class="card-title">Change history</h5>
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">TIME</th>
+                                    <th scope="col">USER</th>
+                                    <th scope="col">ACTION</th>
+                                    <th scope="col">By user</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for log in logs %} 
+                                    <tr>
+                                        <td>{{log.action_time}}</td>
+                                        <td>{{log.object_repr}}</td>
+                                        <td>{{log.change_message}}</td>
+                                        <td>{{log.object_repr}}</td>
+                                    </tr>
+                                    {% endfor %} 
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Page Content -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->            
+            {% include  'footer_admin.html' %} 
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+{% endblock %}
+{% block scripts %}
+{% endblock %}
+
