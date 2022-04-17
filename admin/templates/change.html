@@ -33,7 +33,7 @@
                     <div class="col-md-5 align-self-center">
                         <h3 class="text-themecolor">USERS</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'admin' %}">Home</a></li>
                             <li class="breadcrumb-item active">USERS</li>
                         </ol>
                     </div>
@@ -41,26 +41,25 @@
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
-                
                 <div class="row">
-                    <form id="change_pass_admin" action="{% url 'change' %}" class="" method="POST">
+                    <form id="change_pass_admin" action="{% url 'change' %}" class="" method="POST" onkeydown="return event.key != 'Enter';">
                         {% csrf_token %}
-                        <label><b>Username</b></label>
+                        <label><b>Username: {{request.user}}</b></label>
                         <br>
-                        <input type="username" placeholder="Enter username" name="username" required autocomplete="off">
+                        <label><b>Old password</b></label>
                         <br>
-                        <label><b>Email</b></label>
+                        <input type="password" placeholder="Enter old password" name="old_password" required autocomplete="off">
                         <br>
-                        <input type="email" placeholder="Enter email" name="email" required autocomplete="off">
+                        <label><b>New Password</b></label>
                         <br>
-                        <label><b>Password</b></label>
-                        <br>
-                        <input type="password" placeholder="Enter password" name="password" required autocomplete="off">
+                        <input type="password" placeholder="Enter new password" name="new_password" required autocomplete="off">
                         <br>
                         <label><b>Password confirmation:</b></label>
                         <br>
-                        <input type="password" placeholder="Password confirmation:" name="re_password" required autocomplete="off">
-                        <input type="submit">
+                        <input type="password" placeholder="Password confirmation" name="re_password" required autocomplete="off">
+                        <br>
+                        <p class="{{class_css}}">{{message}}</p>
+                        <Button class="btn btn-success" type="submit">Change Pass</button>
                     </form>
                 </div>
                 <!-- ============================================================== -->

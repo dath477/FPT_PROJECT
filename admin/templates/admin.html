@@ -34,7 +34,7 @@
                     <div class="col-md-5 align-self-center">
                         <h3 class="text-themecolor">Dashboard</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'admin' %}">Home</a></li>
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div>
@@ -42,45 +42,51 @@
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-lg-6 col-md-12">
-                        <div class="card card-body mailbox">
-                            <h5 class="card-title">GROUPS AND USERS</h5>                            
-                            <ul>
-                                <!--
-                                <li>
-                                    <div>GROUPS
-                                        <div style="float:right" class="d-inline">
-                                            <a href="{% url 'create_group' %}" class="text-success add-edit-admin"><i class="fa fa-plus"></i>Add</a>                                     
-                                            <a href="{% url 'edit_group' %}" class="text-danger add-edit-admin"><i class="fa fa-pencil"></i>Edit</a>
-                                        </div>
-                                    </div>                                    
-                                </li>
-                                -->
-                                <li>
-                                    <div>USERS
-                                        <div style="float:right" class="d-inline">
-                                            <a href="{% url 'create_user' %}" class="text-success add-edit-admin"><i class="fa fa-plus"></i>Add</a>                                     
-                                            <a href="{% url 'edit_user' %}" class="text-danger add-edit-admin"><i class="fa fa-pencil"></i>Edit</a>
-                                        </div>
-                                    </div>   
-                                </li>
-                            </ul>
+                {% if per_add == 1 or per_change == 1 %}
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="card card-body mailbox">
+                                <h5 class="card-title">USERS</h5>                            
+                                <ul>
+                                    <!--
+                                    <li>
+                                        <div>GROUPS
+                                            <div style="float:right" class="d-inline">
+                                                <a href="{% url 'create_group' %}" class="text-success add-edit-admin"><i class="fa fa-plus"></i>Add</a>                                     
+                                                <a href="{% url 'edit_group' %}" class="text-danger add-edit-admin"><i class="fa fa-pencil"></i>Edit</a>
+                                            </div>
+                                        </div>                                    
+                                    </li>
+                                    -->
+                                    <li>
+                                        <div>USERS
+                                            <div style="float:right" class="d-inline">
+                                                {%if per_add == 1%}
+                                                <a href="{% url 'create_user' %}" class="text-success add-edit-admin"><i class="fa fa-plus"></i>Add</a>    
+                                                {%endif%}      
+                                                {%if per_change == 1%}
+                                                <a href="{% url 'user' %}" class="text-danger add-edit-admin"><i class="fa fa-pencil"></i>Edit</a> 
+                                                {%endif%}                                 
+                                            </div>
+                                        </div>   
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {%endif%}
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <div class="card card-body mailbox">
                             <h5 class="card-title">Change history</h5>
                             <table class="table">
                                 <thead>
-                                  <tr>
+                                <tr>
                                     <th scope="col">TIME</th>
                                     <th scope="col">USER</th>
                                     <th scope="col">ACTION</th>
                                     <th scope="col">By user</th>
-                                  </tr>
+                                </tr>
                                 </thead>
                                 <tbody>
                                     {% for log in logs %} 
@@ -88,11 +94,11 @@
                                         <td>{{log.action_time}}</td>
                                         <td>{{log.object_repr}}</td>
                                         <td>{{log.change_message}}</td>
-                                        <td>{{log.object_repr}}</td>
+                                        <td>{{log.user.username}}</td>
                                     </tr>
                                     {% endfor %} 
                                 </tbody>
-                              </table>
+                            </table>
                         </div>
                     </div>
                 </div>

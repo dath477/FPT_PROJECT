@@ -33,7 +33,7 @@
                     <div class="col-md-5 align-self-center">
                         <h3 class="text-themecolor">Create User</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'admin' %}">Home</a></li>
                             <li class="breadcrumb-item active">Create User</li>
                         </ol>
                     </div>
@@ -43,7 +43,7 @@
                 <!-- ============================================================== -->
                 
                 <div class="row">
-                    <form id="create_user" action="{% url 'create_user' %}" class="" method="POST">
+                    <form id="create_user" action="{% url 'create_user' %}" class="" method="POST" onkeydown="return event.key != 'Enter';">
                         {% csrf_token %}
                         <label><b>Username</b></label>
                         <br>
