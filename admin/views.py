@@ -13,6 +13,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
 from django.db.models import Q
 import json
+from django.contrib.auth.context_processors import PermWrapper
 
 def index(request):
     if not request.user.is_authenticated:
@@ -20,15 +21,8 @@ def index(request):
     else:
         if request.user.is_staff:
             logs = LogEntry.objects.select_related('user').order_by('-action_time')[:10]
-            if request.user.has_perm('auth.add_user'):
-                per_add = 1
-            else:
-                per_add = 0
-            if request.user.has_perm('auth.change_user'):
-                per_change = 1
-            else:
-                per_change = 0
-            return render(request, 'admin.html',{'username':request.user,'logs':logs,'per_add':per_add,'per_change':per_change})
+            U = User.objects.get(id=request.user.id)
+            return render(request, 'admin.html',{'username':request.user,'logs':logs,'perms': PermWrapper(request.user),'user':U})
         else:
             return redirect('%s?next=%s' % (settings.HOME_URL, request.path))
 def group(request):
@@ -38,23 +32,12 @@ def user(request):
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
     else:
         if request.user.is_staff:
-            if request.user.has_perm('auth.view_user'):
+            Pers = PermWrapper(request.user)
+            if 'auth.view_user' in Pers or request.user.is_superuser:
                 Users = User.objects.all()
-                if request.user.has_perm('auth.add_user'):
-                    per_add = 1
-                else:
-                    per_add = 0
-                if request.user.has_perm('auth.change_user'):
-                    per_change = 1
-                else:
-                    per_change = 0                
-                if request.user.has_perm('auth.delete_user'):
-                    per_delete = 1
-                else:
-                    per_delete = 0
-                return render(request, 'user.html',{'username':request.user,'Users':Users,'per_add':per_add,'per_change':per_change,'per_delete':per_delete})
+                return render(request, 'user.html',{'username':request.user,'Users':Users,'perms': Pers})
             else:
-                redirect('admin')
+                return redirect('admin')
         else:
             return redirect('%s?next=%s' % (settings.HOME_URL, request.path))
 def create_user(request):
@@ -62,7 +45,7 @@ def create_user(request):
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
     else:
         if request.user.is_staff:
-            if request.user.has_perm('auth.add_user'):
+            if request.user.has_perm('auth.add_user') or request.user.is_superuser:
                 if request.method == "POST":
                     name = request.POST['username']
                     email = request.POST['email']
@@ -93,7 +76,7 @@ def edit_user(request,id):
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
     else:
         if request.user.is_staff:
-            if request.user.has_perm('auth.change_user'):
+            if request.user.has_perm('auth.change_user') or request.user.is_superuser:
                 if request.method == "POST":
                     firstname = request.POST['firstname']
                     lastname = request.POST['lastname']
@@ -116,6 +99,14 @@ def edit_user(request,id):
                                     u.is_active = True
                                 if checker == '3':
                                     u.is_superuser = True
+                    #check superuser when not exists superuser them error
+                    try:
+                        sup = User.objects.filter(~Q(id=u.id),is_superuser=True,is_active=True).count()
+                    except  User.DoesNotExist:
+                        u.is_superuser = True
+                    else:
+                        if sup == 0:
+                            u.is_superuser = True
                     u.save()
                     log = LogEntry.objects.log_action(
                                 user_id=request.user.id,
@@ -124,10 +115,7 @@ def edit_user(request,id):
                                 content_type_id=ContentType.objects.get_for_model(User).pk,
                                 action_flag=CHANGE,
                                 object_repr=u.username)
-                    Pers = Permission.objects.all().filter(user=u.id)
-                    for per in Pers:
-                        permission = Permission.objects.get(id=per.id)
-                        u.user_permissions.remove(permission)
+                    u.user_permissions.clear()
                     if checkboxs_str:
                         for checkbox in checkboxs_str:
                             if not checkbox.isspace():
@@ -142,8 +130,9 @@ def edit_user(request,id):
                     except  User.DoesNotExist:
                         return redirect('%s?next=%s' % (settings.ADMIN_URL, request.path))
                     else:
-                        Per_all = Permission.objects.all().filter(Q(user=None) | Q(user=id)).values('id','name','user')
-                        return render(request, 'edit_user.html',{'username':request.user,'user_e':user,'pers':Per_all})
+                        Per_all = Permission.objects.all()
+                        permissions = Permission.objects.filter(user=user)
+                        return render(request, 'edit_user.html',{'username':request.user,'user_e':user,'pers':Per_all,'permissions':permissions})
             else:
                 return redirect('admin')
         else:
@@ -192,3 +181,5 @@ def delete_user(request):
                             action_flag=DELETION,
                             object_repr=u.username)
     return redirect('user')
+def permission(request):
+    return render(request, 'permission.html',{'username':request.user})

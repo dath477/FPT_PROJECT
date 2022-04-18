@@ -42,11 +42,13 @@
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
-                {% if per_add == 1 or per_change == 1 %}
+                
+                {% if 'auth.add_user' in perms or 'auth.change_user' in perms or request.user.is_superuser %}
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="card card-body mailbox">
-                                <h5 class="card-title">USERS</h5>                            
+                                <h5 class="card-title">USERS</h5>   
+                                                      
                                 <ul>
                                     <!--
                                     <li>
@@ -61,10 +63,10 @@
                                     <li>
                                         <div>USERS
                                             <div style="float:right" class="d-inline">
-                                                {%if per_add == 1%}
+                                                {%if 'auth.add_user' in perms or request.user.is_superuser %}
                                                 <a href="{% url 'create_user' %}" class="text-success add-edit-admin"><i class="fa fa-plus"></i>Add</a>    
                                                 {%endif%}      
-                                                {%if per_change == 1%}
+                                                {%if perms.auth.change_user or request.user.is_superuser%}
                                                 <a href="{% url 'user' %}" class="text-danger add-edit-admin"><i class="fa fa-pencil"></i>Edit</a> 
                                                 {%endif%}                                 
                                             </div>
@@ -75,6 +77,7 @@
                         </div>
                     </div>
                 {%endif%}
+                {%if request.user.is_superuser or 'admin.view_logentry' in perms %}
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <div class="card card-body mailbox">
@@ -102,6 +105,7 @@
                         </div>
                     </div>
                 </div>
+                {%endif%}
                 <!-- ============================================================== -->
                 <!-- End Page Content -->
                 <!-- ============================================================== -->

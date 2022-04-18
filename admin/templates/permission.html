@@ -33,48 +33,19 @@
                     <div class="col-md-5 align-self-center">
                         <h3 class="text-themecolor">USERS</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">USERS</li>
+                            <li class="breadcrumb-item"><a href="{%url 'admin'%}">Home</a></li>
+                            <li class="breadcrumb-item active">Permission</li>
                         </ol>
                     </div>
                 </div>
-                <form action="{{request.path}}" class="" method="POST">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-sm">
-                            <h1>Information</h1>
-                            <label><b>User name: {{user_e.username}}</b></label>
-                            <br>
-                            <label><b>First name:</b></label>
-                            <br>
-                            <input type="text" placeholder="Enter firstname" value="{{user_e.first_name}}" name="firstname">
-                            <br>
-                            <label><b>Last name:</b></label>
-                            <br>
-                            <input type="text" placeholder="Enter lastname" value="{{user_e.last_name}}" name="lastname">
-                            <br>
-                            <label><b>Email:</b></label>
-                            <br>
-                            <input type="email" placeholder="Enter email" value="{{user_e.email}}" name="email">
-                            <br>
-                            <input type="submit" hidden>
-                        </div>
-                        <div class="col-sm">
-                            <h1>Permission</h1>
-                            {% for per in pers %} 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" {% if per.user == user_e.id %} checked{% endif %} name="checkbox" id="flexCheck{{per.id}}" value="{{per.id}}">
-                                    <label class="form-check-label" for="flexCheck{{per.id}}">
-                                        {{per.name}}
-                                    </label>
-                                </div>
-                            {% endfor %} 
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card card-body mailbox">
+                            <h5 class="card-title">Permission</h5>                                                     
+                            <p>Developing</p>
                         </div>
                     </div>
-                    <br>                    
-                    <button class="btn btn-danger" type="button">Delete</button>
-                    <button class="btn btn-success" type="button">Save</button>
-                </form>
+                </div>
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
